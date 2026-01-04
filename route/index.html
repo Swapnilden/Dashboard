@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard UI Recreation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#E11D48',   /* Matches the red/pink accents */
+                            dark: '#111827',  /* Dark card backgrounds */
+                            light: '#F3F4F6', /* Main background */
+                            pink: '#FCE7F3'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for cleaner look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #CBD5E1; border-radius: 20px; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 antialiased h-screen flex overflow-hidden selection:bg-rose-200">
+
+    <aside class="w-64 bg-white flex-shrink-0 flex flex-col justify-between border-r border-gray-200 hidden lg:flex">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-bold">C</div>
+                <span class="font-semibold text-gray-900">Codename.com</span>
+                <i class="ph ph-caret-down text-gray-400 text-xs"></i>
+            </div>
+
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
+                    <i class="ph ph-star text-lg"></i>
+                    <span class="text-sm font-medium">Starred</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
+                    <i class="ph ph-clock-counter-clockwise text-lg"></i>
+                    <span class="text-sm font-medium">Recent</span>
+                </a>
+                
+                <div class="mt-6 mb-2 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Dashboards</div>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-brand-red bg-rose-50 rounded-lg transition-colors">
+                    <div class="w-6 h-6 rounded bg-brand-red text-white flex items-center justify-center">
+                        <i class="ph ph-squares-four"></i>
+                    </div>
+                    <span class="text-sm font-semibold">Dashboard</span>
+                    <i class="ph ph-plus ml-auto text-xs"></i>
+                </a>
+                
+                <div class="pl-11 mt-2 space-y-2 border-l border-gray-100 ml-5">
+                    <a href="#" class="block text-sm text-gray-900 font-medium">Codename</a>
+                    <div class="flex items-center justify-between group cursor-pointer">
+                        <span class="text-sm text-gray-500 group-hover:text-gray-900">Shared with me</span>
+                        <i class="ph ph-caret-up text-xs text-gray-400"></i>
+                    </div>
+                    <div class="pl-2 space-y-2 mt-2">
+                        <a href="#" class="flex items-center justify-between text-sm text-gray-500">
+                            <span>Cargo2go</span>
+                        </a>
+                        <a href="#" class="flex items-center justify-between text-sm text-gray-500">
+                            <span>Cloudz3r</span>
+                            <span class="w-5 h-5 bg-brand-red text-white text-[10px] rounded-full flex items-center justify-center">2</span>
+                        </a>
+                        <a href="#" class="block text-sm text-gray-500">Idioma</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="p-6 border-t border-gray-100">
+            <div class="flex items-center gap-4 text-gray-500 cursor-pointer hover:text-gray-900">
+                <i class="ph ph-gear text-xl"></i>
+                <span class="text-sm font-medium">Settings</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-8 z-10">
+            <div class="relative w-96">
+                <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" placeholder="Try searching 'insights'" class="w-full bg-gray-100 text-sm py-2.5 pl-10 pr-4 rounded-full border-none focus:ring-2 focus:ring-brand-red/20 outline-none transition-all">
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50">
+                    <i class="ph ph-list text-gray-600 text-lg"></i>
+                </button>
+                <div class="flex items-center -space-x-2">
+                    <img src="https://i.pravatar.cc/100?img=12" class="w-9 h-9 rounded-full border-2 border-white" alt="User">
+                    <div class="w-9 h-9 rounded-full bg-brand-red text-white flex items-center justify-center text-xs font-bold border-2 border-white">+</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 bg-gray-50">
+            
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+                <div class="flex items-center gap-4">
+                    <button class="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center hover:shadow-md transition-shadow">
+                        <i class="ph ph-plus text-gray-600"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                            <img src="https://i.pravatar.cc/100?img=33" class="w-5 h-5 rounded-full">
+                            <span class="text-xs font-semibold text-gray-700">Armin A.</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                            <img src="https://i.pravatar.cc/100?img=11" class="w-5 h-5 rounded-full">
+                            <span class="text-xs font-semibold text-gray-700">Eren Y.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-medium text-gray-500">Timeframe</span>
+                        <div class="w-10 h-5 bg-gray-800 rounded-full relative cursor-pointer">
+                            <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                    </div>
+                    <button class="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-full text-xs font-semibold text-gray-600 shadow-sm">
+                        Sep 1 – Nov 30, 2023
+                        <i class="ph ph-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                <div class="lg:col-span-5 flex flex-col gap-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-400 mb-1">New report</h2>
+                        <h1 class="text-sm font-semibold text-gray-900">Revenue</h1>
+                        <div class="flex items-end gap-3 mt-2">
+                            <span class="text-4xl font-bold text-gray-900 tracking-tight">$528,976<span class="text-gray-400">.82</span></span>
+                            <span class="bg-brand-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 mb-1">
+                                <i class="ph ph-arrow-up-right font-bold"></i> 7.9%
+                            </span>
+                            <span class="bg-brand-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">$27,335.09</span>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                            vs prev. $501,641.73 <span class="text-gray-400">Jun 1 - Aug 31, 2023</span> <i class="ph ph-caret-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-sm">
+                            <img src="https://i.pravatar.cc/100?img=3" class="w-6 h-6 rounded-full grayscale opacity-70">
+                            <span class="font-medium text-gray-600 w-16">$209,633</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gray-400 w-[40%] rounded-full"></div>
+                            </div>
+                            <span class="text-xs text-gray-400">39.63%</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <img src="https://i.pravatar.cc/100?img=8" class="w-6 h-6 rounded-full grayscale opacity-70">
+                            <span class="font-medium text-gray-600 w-16">$156,841</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-blue-400 w-[30%] rounded-full"></div>
+                            </div>
+                            <span class="text-xs text-gray-400">29.65%</span>
+                        </div>
+                         <div class="flex items-center gap-3 text-sm">
+                            <img src="https://i.pravatar.cc/100?img=12" class="w-6 h-6 rounded-full grayscale opacity-70">
+                            <span class="font-medium text-gray-600 w-16">$117,115</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-amber-600 w-[22%] rounded-full"></div>
+                            </div>
+                            <span class="text-xs text-gray-400">22.14%</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-3xl shadow-soft">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex gap-2">
+                                <i class="ph ph-list text-gray-400"></i>
+                                <i class="ph ph-caret-down text-xs text-gray-400 pt-1"></i>
+                            </div>
+                            <button class="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-600 font-medium flex items-center gap-1">
+                                Filters <i class="ph ph-funnel"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-pink-100 text-pink-500 flex items-center justify-center"><i class="ph ph-dribbble-logo"></i></div>
+                                    <span class="font-medium text-gray-700">Dribbble</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="font-bold text-gray-900">$227,459</span>
+                                    <span class="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-500">43%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center"><i class="ph ph-instagram-logo"></i></div>
+                                    <span class="font-medium text-gray-700">Instagram</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="font-bold text-gray-900">$142,823</span>
+                                    <span class="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-500">27%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center"><i class="ph ph-behance-logo"></i></div>
+                                    <span class="font-medium text-gray-700">Behance</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="font-bold text-gray-900">$89,935</span>
+                                    <span class="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-500">11%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center"><i class="ph ph-google-logo"></i></div>
+                                    <span class="font-medium text-gray-700">Google</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="font-bold text-gray-900">$37,028</span>
+                                    <span class="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-500">7%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-red rounded-3xl p-5 text-white relative overflow-hidden">
+                         <div class="flex justify-between items-start mb-4 relative z-10">
+                            <div>
+                                <h3 class="text-xs font-medium text-white/80 flex items-center gap-1">
+                                    <i class="ph ph-globe"></i> Platform value
+                                    <br> Dribbble <i class="ph ph-caret-down"></i>
+                                </h3>
+                            </div>
+                            <div class="flex bg-black/20 rounded-full p-0.5">
+                                <span class="text-[10px] px-2 py-1 bg-black rounded-full font-bold">Revenue</span>
+                                <span class="text-[10px] px-2 py-1 text-white/70">Leads</span>
+                                <span class="text-[10px] px-2 py-1 text-white/70">W/L</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-end justify-between h-24 gap-2 mt-4 relative z-10">
+                            <div class="w-full flex flex-col justify-end gap-1 h-full">
+                                <div class="text-[10px] text-white/60 mb-1">$18,552</div>
+                                <div class="w-full bg-white/20 rounded-t-sm h-[40%]"></div>
+                            </div>
+                             <div class="w-full flex flex-col justify-end gap-1 h-full">
+                                <div class="text-[10px] bg-white/20 rounded px-1 w-fit mb-1">$6,901</div>
+                                <div class="w-full bg-white/40 rounded-t-sm h-[20%]"></div>
+                            </div>
+                             <div class="w-full flex flex-col justify-end gap-1 h-full">
+                                <div class="text-[10px] bg-brand-red border border-white/30 rounded px-1 w-fit mb-1 shadow-sm">$11,035</div>
+                                <div class="w-full bg-white rounded-t-sm h-[60%]"></div>
+                            </div>
+                            <div class="w-full flex flex-col justify-end gap-1 h-full">
+                                <div class="text-[10px] bg-white/20 rounded px-1 w-fit mb-1">$9,288</div>
+                                <div class="w-full bg-white/40 rounded-t-sm h-[50%]"></div>
+                            </div>
+                            <div class="w-full flex flex-col justify-end gap-1 h-full">
+                                <div class="w-full bg-white/20 rounded-t-sm h-[30%]"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-white/10 flex justify-between relative z-10">
+                            <div>
+                                <div class="text-[10px] text-white/60">Average monthly</div>
+                                <div class="text-sm font-bold">$18,552</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-white/60">Leads</div>
+                                <div class="text-sm font-bold">373 <span class="text-white/60 font-normal">97/276</span></div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-white/60">Win/lose</div>
+                                <div class="text-sm font-bold">16% <span class="text-white/60 font-normal">51/318</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex flex-col gap-6">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-3xl shadow-soft flex flex-col justify-between col-span-1">
+                            <div>
+                                <div class="text-xs text-gray-500">Top sales</div>
+                                <div class="text-2xl font-bold mt-1">72</div>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center gap-1 text-xs font-semibold">
+                                    <div class="w-5 h-5 bg-blue-500 rounded-full"></div> Mikasa
+                                </div>
+                                <i class="ph ph-caret-right text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-900 text-white p-4 rounded-3xl shadow-soft flex flex-col justify-between col-span-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="text-xs text-gray-400 flex items-center gap-1">Best deal <i class="ph ph-star-fill text-[10px]"></i></div>
+                                    <div class="text-xl font-bold mt-1">$42,300</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="text-xs text-gray-400">Rolf Inc.</div>
+                                <button class="w-5 h-5 bg-white text-black rounded flex items-center justify-center"><i class="ph ph-caret-right"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-2xl shadow-soft flex flex-col items-center justify-center gap-1 col-span-1 text-center border border-gray-100">
+                            <div class="text-xs text-gray-500">Deals</div>
+                            <div class="text-xs px-2 py-0.5 bg-gray-100 rounded text-gray-400 font-mono">256</div>
+                            <div class="text-[10px] text-green-500 font-bold flex items-center mt-1"><i class="ph ph-arrow-up"></i> 5</div>
+                        </div>
+                        <div class="bg-white p-3 rounded-2xl shadow-soft flex flex-col items-center justify-center gap-1 col-span-1 text-center border border-rose-100 ring-2 ring-rose-50">
+                            <div class="text-xs text-brand-red font-medium">Value</div>
+                            <div class="text-xs px-2 py-0.5 bg-brand-red text-white rounded font-mono">528k</div>
+                            <div class="text-[10px] text-brand-red font-bold flex items-center mt-1"><i class="ph ph-arrow-up"></i> 7.9%</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3 text-xs font-medium">
+                         <span class="flex items-center gap-1 text-gray-500">$45,386 <span class="text-gray-300">8.58%</span></span>
+                         <button class="bg-black text-white px-4 py-2 rounded-full">Details</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+                        
+                        <div class="bg-white p-5 rounded-3xl shadow-soft flex flex-col h-full">
+                            <div class="flex justify-between mb-4">
+                                <div class="flex gap-2">
+                                    <i class="ph ph-chart-bar text-gray-400"></i>
+                                    <i class="ph ph-caret-down text-xs text-gray-400 pt-1"></i>
+                                </div>
+                                <button class="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-600 font-medium flex items-center gap-1">
+                                    Filters <i class="ph ph-funnel"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex-1 flex items-end justify-between gap-2 px-2 pb-2">
+                                <div class="flex flex-col items-center gap-2 w-full">
+                                    <div class="w-2/3 bg-pink-100 h-16 rounded-t-lg relative group">
+                                         <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white shadow px-2 py-1 rounded text-[10px] hidden group-hover:block z-10">Dribbble</div>
+                                         <i class="ph ph-dribbble-logo text-pink-500 absolute bottom-2 left-1/2 -translate-x-1/2"></i>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center gap-2 w-full">
+                                    <div class="w-2/3 bg-blue-50 h-32 rounded-t-lg relative">
+                                        <div class="text-xs font-bold text-blue-500 absolute -top-5 left-1/2 -translate-x-1/2">Be</div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center gap-2 w-full">
+                                     <div class="w-2/3 bg-gray-50 h-20 rounded-t-lg relative">
+                                         <i class="ph ph-google-logo text-gray-500 absolute bottom-2 left-1/2 -translate-x-1/2"></i>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center gap-2 w-full">
+                                    <div class="w-2/3 bg-white border border-dashed border-gray-300 h-24 rounded-t-lg relative flex items-end justify-center pb-2">
+                                        <i class="ph ph-instagram-logo text-orange-500"></i>
+                                        <div class="w-1 h-1 bg-black rounded-full absolute top-2 right-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-xs font-medium text-gray-800 mt-2">Deals amount <br><span class="text-gray-400 font-normal">by referrer category <i class="ph ph-caret-down"></i></span></div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-white to-pink-50 p-5 rounded-3xl shadow-soft relative overflow-hidden flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-6">
+                                <div>
+                                    <div class="text-xs font-semibold text-gray-500">Work with platforms</div>
+                                    <h2 class="text-3xl font-bold text-gray-900 mt-4">45.3% <span class="text-gray-300 text-xl font-normal">$71,048</span></h2>
+                                </div>
+                                <div class="text-right">
+                                    <span class="bg-brand-red text-white text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 justify-end w-fit ml-auto">
+                                        <i class="ph ph-diamond"></i> 3
+                                    </span>
+                                    <span class="bg-brand-red text-white text-[10px] font-bold px-2 py-1 rounded inline-block mt-1">$156,841</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <div class="bg-white/60 p-2 rounded-xl flex items-center gap-2">
+                                    <i class="ph ph-dribbble-logo text-pink-500"></i>
+                                    <span class="text-xs font-semibold">Dribbble</span>
+                                </div>
+                                <div class="bg-white/60 p-2 rounded-xl flex flex-col">
+                                    <div class="flex items-center gap-1 text-[10px] font-semibold"><i class="ph ph-instagram-logo text-orange-500"></i> Instagram</div>
+                                    <div class="text-[10px] text-gray-400 mt-1">28.1% <span class="text-gray-300">$44,072</span></div>
+                                </div>
+                                <div class="bg-white/60 p-2 rounded-xl flex flex-col">
+                                     <div class="flex items-center gap-1 text-[10px] font-semibold"><i class="ph ph-google-logo text-gray-500"></i> Google</div>
+                                     <div class="text-[10px] text-gray-400 mt-1">14.1% <span class="text-gray-300">$22,114</span></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto relative h-16 w-full">
+                                <div class="text-[10px] text-gray-400 mb-1">Sales dynamic</div>
+                                <svg viewBox="0 0 100 25" class="w-full h-full overflow-visible">
+                                    <path d="M0,20 Q10,10 20,20 T40,15 T60,20 T80,5 T100,15" fill="none" stroke="#E11D48" stroke-width="1.5" />
+                                    <circle cx="20" cy="20" r="2" fill="white" stroke="#E11D48" />
+                                    <circle cx="60" cy="20" r="2" fill="#111" stroke="white" />
+                                    <circle cx="80" cy="5" r="2" fill="white" stroke="#E11D48" />
+                                </svg>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl p-5 shadow-soft">
+                         <div class="grid grid-cols-5 text-xs text-gray-400 mb-3 px-2">
+                            <div class="col-span-1">Sales</div>
+                            <div class="col-span-1">Revenue</div>
+                            <div class="col-span-1">Leads</div>
+                            <div class="col-span-1">KPI</div>
+                            <div class="col-span-1">W/L</div>
+                        </div>
+                        <div class="grid grid-cols-5 items-center text-sm px-2 py-2 hover:bg-gray-50 rounded-xl transition-colors">
+                            <div class="col-span-1 flex items-center gap-2">
+                                <img src="https://i.pravatar.cc/100?img=33" class="w-6 h-6 rounded-full">
+                                <span class="font-semibold text-gray-700">Armin A.</span>
+                            </div>
+                            <div class="col-span-1 font-medium text-gray-600">$209,633</div>
+                            <div class="col-span-1 flex items-center gap-2">
+                                <span class="bg-black text-white text-[10px] px-2 py-0.5 rounded-full">41</span>
+                                <span class="text-gray-400 text-xs">118</span>
+                            </div>
+                            <div class="col-span-1 text-gray-600">0.84</div>
+                            <div class="col-span-1 flex items-center gap-2 text-xs">
+                                <span>31%</span>
+                                <span class="bg-black text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px]">12</span>
+                                <span class="text-gray-400">29</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-5 items-center text-sm px-2 py-2 hover:bg-gray-50 rounded-xl transition-colors bg-pink-50/50 mt-1">
+                            <div class="col-span-1 flex items-center gap-2">
+                                <img src="https://i.pravatar.cc/100?img=5" class="w-6 h-6 rounded-full">
+                                <span class="font-semibold text-gray-700">Mikasa A.</span>
+                            </div>
+                            <div class="col-span-1 font-medium text-gray-600">$156,841</div>
+                            <div class="col-span-1 flex items-center gap-2">
+                                <span class="bg-black text-white text-[10px] px-2 py-0.5 rounded-full">54</span>
+                                <span class="text-gray-400 text-xs">103</span>
+                            </div>
+                            <div class="col-span-1 text-gray-600">0.89</div>
+                            <div class="col-span-1 flex items-center gap-2 text-xs">
+                                <span>39%</span>
+                                <span class="bg-black text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px]">21</span>
+                                <span class="text-gray-400">33</span>
+                                <button class="ml-auto w-6 h-6 rounded-full bg-brand-red text-white flex items-center justify-center"><i class="ph ph-caret-up"></i></button>
+                            </div>
+                        </div>
+                         <div class="flex gap-2 mt-3 px-2">
+                            <span class="text-[10px] border border-gray-200 bg-white px-2 py-1 rounded-full text-gray-500 shadow-sm flex items-center gap-1">Top sales <span class="text-yellow-500">💪</span></span>
+                            <span class="text-[10px] border border-gray-200 bg-white px-2 py-1 rounded-full text-gray-500 shadow-sm flex items-center gap-1">Sales streak <span class="text-orange-500">🔥</span></span>
+                            <span class="text-[10px] border border-gray-200 bg-white px-2 py-1 rounded-full text-gray-500 shadow-sm flex items-center gap-1">Top review <span class="text-yellow-400">👍</span></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
